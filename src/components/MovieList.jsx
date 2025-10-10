@@ -4,7 +4,8 @@ import MovieCard from './MovieCard';
 
 const MovieList = ({ movies }) => {
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 py-10">
+        // 🎯 KEY CHANGE: Use Flexbox for horizontal scrolling
+        <div className="flex flex-row overflow-x-auto space-x-6 py-10 px-4">
             {movies.map((movie) => (
                 <MovieCard key={movie.imdbID} movie={movie} />
             ))}

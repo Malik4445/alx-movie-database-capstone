@@ -54,15 +54,14 @@ const Home = () => {
     
     // 4. Component Render (JSX)
     return (
-        // 🎯 Updated to use the custom dark background color
         <div className="min-h-screen"> 
-            <header className="py-12 px-8">
-                <h1 className="text-4xl font-extrabold text-center text-white">
-                    Movie Database 🎬
-                </h1>
-            </header>
-            
-            {/* Max-width container to center content */}
+    <header className="py-12 px-8">
+        <h1 className="text-4xl font-extrabold text-center text-gray-800">
+            {/* 🎯 Updated text color to dark gray */}
+            Movie Database 🎬
+        </h1>
+    </header>
+        
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <SearchBar 
                     setSearchTerm={setSearchTerm} 
