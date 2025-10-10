@@ -1,10 +1,12 @@
-// src/App.jsx
+// src/App.jsx 
 
-import Home from './pages/Home';
+import React from 'react';
+import Home from './pages/Home'; 
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    // The outermost container should simply take up the full available width
+    <div className="w-full min-h-screen">
       <Home />
     </div>
   );

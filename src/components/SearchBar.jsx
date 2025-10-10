@@ -1,20 +1,24 @@
 // src/components/SearchBar.jsx
 import React from 'react';
 
-const SearchBar = ({ setSearchTerm }) => {
+const SearchBar = ({ setSearchTerm, currentTerm }) => {
+    
     const handleChange = (e) => {
-        // Update the state in the parent component immediately on change
+        // We trigger the search via the useEffect in Home.jsx
         setSearchTerm(e.target.value); 
     };
 
     return (
-        <div className="max-w-xl mx-auto mb-8">
+        // 🎯 Key styling: Centering (mx-auto, justify-center) and rounded input style
+        <div className="flex justify-center my-10 px-4"> 
             <input
                 type="text"
-                placeholder="Search for a movie title..."
+                value={currentTerm}
                 onChange={handleChange}
-                // Tailwind for styling: large input, full width, rounded, shadow, and good padding
-                className="w-full p-3 text-lg border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Search for a movie title..."
+                aria-label="Search for movies"
+                // 🎯 Tailwind styles for the dark, large, rounded input
+                className="w-full max-w-2xl p-4 text-xl rounded-full bg-zinc-800 text-white placeholder-gray-500 border-none focus:ring-2 focus:ring-red-600 focus:outline-none transition-shadow"
             />
         </div>
     );
