@@ -6,21 +6,23 @@ const MovieCard = ({ movie }) => {
     const posterUrl = movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x450?text=No+Poster';
 
     return (
-        // Tailwind card styling: shadow, rounded corners, fixed width for grid
         <div 
-            className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-pointer"
-            onClick={() => console.log('Navigate to details for:', movie.imdbID)} // Placeholder for next week's routing
+            className="bg-zinc-800 rounded-xl shadow-2xl hover:scale-105 transition-all duration-300 overflow-hidden cursor-pointer"
+            onClick={() => console.log('Navigate to details for:', movie.imdbID)}
         >
             <img 
                 src={posterUrl} 
                 alt={`${movie.Title} poster`} 
-                // Tailwind: fixed height to make all cards uniform, object-cover ensures image fills without stretching
-                className="w-full h-80 object-cover"
+                // Fixed height for uniform posters
+                className="w-full h-96 object-cover" 
             />
-            <div className="p-4">
-                <h3 className="text-lg font-semibold truncate">{movie.Title}</h3>
-                <p className="text-sm text-gray-500">Year: {movie.Year}</p>
-                <p className="text-xs text-gray-700 mt-2">ID: {movie.imdbID}</p>
+            {/* Placeholder for Rating Badge */}
+            
+            <div className="p-4 relative"> 
+                {/* Text is white and bold */}
+                <h3 className="text-xl font-bold text-white truncate">{movie.Title}</h3>
+                {/* Secondary text is light gray */}
+                <p className="text-sm text-gray-400 mt-1">Year: {movie.Year}</p>
             </div>
         </div>
     );

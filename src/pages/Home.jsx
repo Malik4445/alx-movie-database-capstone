@@ -12,97 +12,88 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     
-    // 2. Data Fetching Function - CORRECTED
-    const fetchMovies = async (title) => { // <--- START FUNCTION HERE
-        setIsLoading(true); // <--- SETUP
+    // 2. Data Fetching Function
+    const fetchMovies = async (title) => { 
+        setIsLoading(true); 
         setError(null);
-        setMovies([]); // Clear old results
+        setMovies([]);
 
-        // Call the API utility function and destructure the result
-        const { movies: fetchedMovies, error: fetchError } = await searchMovies(title); // <--- API CALL
+        const { movies: fetchedMovies, error: fetchError } = await searchMovies(title);
 
-        // -------------------------------------------------------------------------
-        // The rest of the logic you provided MUST be inside this function body
-        // -------------------------------------------------------------------------
         setIsLoading(false);
         
         if (fetchError) {
             setError(fetchError);
         } else {
-            // CRITICAL STEP: Deduplicate the movies array
+        
             const uniqueMovies = [];
             const ids = new Set();
             
-            // Loop through fetchedMovies (which may be undefined or null if no results)
             const moviesArray = fetchedMovies || []; 
             
             for (const movie of moviesArray) {
-                // The 'imdbID' is the unique identifier
                 if (movie && movie.imdbID && !ids.has(movie.imdbID)) {
                     ids.add(movie.imdbID);
                     uniqueMovies.push(movie);
                 }
             }
             
-            setMovies(uniqueMovies); // Set the cleaned, unique list
+            setMovies(uniqueMovies);
         }
-    }; // <--- END FUNCTION HERE
-    // -------------------------------------------------------------------------
-
-    // 3. useEffect Hook for Triggering Search
+    };
+    
     useEffect(() => {
-        // Only run the fetch function if the search term is not empty
         if (searchTerm.trim()) { 
             fetchMovies(searchTerm);
         } else {
             setMovies([]);
             setError(null);
         }
-    // This hook runs once on mount, and again every time 'searchTerm' changes.
     }, [searchTerm]);
     
     
     // 4. Component Render (JSX)
     return (
-        <div className="min-h-screen bg-gray-100 p-4">
-            <header className="py-6">
-                <h1 className="text-4xl font-extrabold text-center text-gray-800">
+        // 🎯 Updated to use the custom dark background color
+        <div className="min-h-screen"> 
+            <header className="py-12 px-8">
+                <h1 className="text-4xl font-extrabold text-center text-white">
                     Movie Database 🎬
                 </h1>
             </header>
             
-            <SearchBar 
-                setSearchTerm={setSearchTerm} 
-                currentTerm={searchTerm} 
-            />
+            {/* Max-width container to center content */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <SearchBar 
+                    setSearchTerm={setSearchTerm} 
+                    currentTerm={searchTerm} 
+                />
 
-            {/* Conditional Rendering */}
-            
-            {/* Loading State */}
-            {isLoading && (
-                <p className="text-center text-xl text-blue-600 mt-10">
-                    Loading movies for "{searchTerm}"...
-                </p>
-            )}
-            
-            {/* Error State */}
-            {error && !isLoading && (
-                <p className="text-center text-red-600 text-xl font-medium mt-10">
-                    Error: {error}
-                </p>
-            )}
-            
-            {/* No Results Message */}
-            {!isLoading && !error && movies.length === 0 && searchTerm.trim() && (
-                <p className="text-center text-gray-500 text-xl mt-10">
-                    No results found for "{searchTerm}". Try a different title.
-                </p>
-            )}
-            
-            {/* Movie List Display */}
-            {!isLoading && !error && movies.length > 0 && (
-                <MovieList movies={movies} />
-            )}
+                {/* Conditional Rendering - Updated text colors for dark theme */}
+                
+                {isLoading && (
+                    <p className="text-center text-xl text-red-500 mt-10">
+                        Loading movies for "{searchTerm}"...
+                    </p>
+                )}
+                
+                {error && !isLoading && (
+                    <p className="text-center text-red-700 text-xl font-medium mt-10">
+                        Error: {error}
+                    </p>
+                )}
+                
+                {!isLoading && !error && movies.length === 0 && searchTerm.trim() && (
+                    <p className="text-center text-gray-400 text-xl mt-10">
+                        No results found for "{searchTerm}". Try a different title.
+                    </p>
+                )}
+                
+                {/* Movie List Display */}
+                {!isLoading && !error && movies.length > 0 && (
+                    <MovieList movies={movies} />
+                )}
+            </div>
         </div>
     );
 };
