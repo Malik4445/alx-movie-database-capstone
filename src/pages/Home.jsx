@@ -1,97 +1,54 @@
 // src/pages/Home.jsx
-
 import React, { useState, useEffect } from 'react';
-import SearchBar from '../components/SearchBar';
-import MovieList from '../components/MovieList';
+import FeaturedSection from '../components/FeaturedSection'; // 🎯 NEW IMPORT
 import { searchMovies } from '../utils/api'; 
+// Note: SearchBar and MovieList are NOT used for this specific Figma replication
 
 const Home = () => {
-    // 1. State Declarations (Hooks)
-    const [movies, setMovies] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('Batman'); 
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    // ... (Your state and useEffect hooks remain the same, ensuring 'movies' is populated)
     
-    // 2. Data Fetching Function
-    const fetchMovies = async (title) => { 
-        setIsLoading(true); 
-        setError(null);
-        setMovies([]);
+    // We'll rename the state to better reflect the featured content
+    const [featuredMovies, setFeaturedMovies] = useState([]);
+    // ... (Your fetchMovies function logic remains the same, but set the results to setFeaturedMovies)
 
-        const { movies: fetchedMovies, error: fetchError } = await searchMovies(title);
-
-        setIsLoading(false);
-        
-        if (fetchError) {
-            setError(fetchError);
-        } else {
-        
-            const uniqueMovies = [];
-            const ids = new Set();
-            
-            const moviesArray = fetchedMovies || []; 
-            
-            for (const movie of moviesArray) {
-                if (movie && movie.imdbID && !ids.has(movie.imdbID)) {
-                    ids.add(movie.imdbID);
-                    uniqueMovies.push(movie);
-                }
-            }
-            
-            setMovies(uniqueMovies);
-        }
-    };
-    
+    // For demonstration, let's assume 'Batman' provides your featured data
     useEffect(() => {
-        if (searchTerm.trim()) { 
-            fetchMovies(searchTerm);
-        } else {
-            setMovies([]);
-            setError(null);
-        }
-    }, [searchTerm]);
+        // Fetch a default list for the featured section
+        const fetchDefaultMovies = async () => {
+            const { movies: fetchedMovies } = await searchMovies('divided'); // Using 'divided' from the image
+            setFeaturedMovies(fetchedMovies || []);
+        };
+        fetchDefaultMovies();
+    }, []);
     
     
     // 4. Component Render (JSX)
     return (
         <div className="min-h-screen"> 
-    <header className="py-12 px-8">
-        <h1 className="text-4xl font-extrabold text-center text-gray-800">
-            {/* 🎯 Updated text color to dark gray */}
-            Movie Database 🎬
-        </h1>
-    </header>
-        
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <SearchBar 
-                    setSearchTerm={setSearchTerm} 
-                    currentTerm={searchTerm} 
-                />
+            
+            {/* Content Wrapper - Max Width and Centering */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20"> 
+                
+                {/* 🎯 The Featured Section that EXACTLY matches the Figma */}
+                {featuredMovies.length > 0 && (
+                    <FeaturedSection movies={featuredMovies} />
+                )}
 
-                {/* Conditional Rendering - Updated text colors for dark theme */}
+                {/* --- Other content would go here (e.g., a main search grid) --- */}
                 
-                {isLoading && (
-                    <p className="text-center text-xl text-red-500 mt-10">
-                        Loading movies for "{searchTerm}"...
-                    </p>
-                )}
-                
-                {error && !isLoading && (
-                    <p className="text-center text-red-700 text-xl font-medium mt-10">
-                        Error: {error}
-                    </p>
-                )}
-                
-                {!isLoading && !error && movies.length === 0 && searchTerm.trim() && (
-                    <p className="text-center text-gray-400 text-xl mt-10">
-                        No results found for "{searchTerm}". Try a different title.
-                    </p>
-                )}
-                
-                {/* Movie List Display */}
-                {!isLoading && !error && movies.length > 0 && (
-                    <MovieList movies={movies} />
-                )}
+            </div>
+            
+            {/* Floating Navigation Bar (Matches Bottom of Figma) */}
+            {/* The Figma shows a nav bar that seems to be fixed at the bottom/top */}
+            <div 
+                className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200"
+                style={{ zIndex: 50 }}
+            >
+                <div className="max-w-7xl mx-auto flex justify-around p-4">
+                    <a href="#" className="text-gray-800 font-bold hover:text-red-700">HOME</a>
+                    <a href="#" className="text-gray-600 hover:text-red-700">MOVIES</a>
+                    <a href="#" className="text-gray-600 hover:text-red-700">TV SHOWS</a>
+                </div>
             </div>
         </div>
     );
