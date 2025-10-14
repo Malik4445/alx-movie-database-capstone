@@ -1,26 +1,81 @@
-/* src/index.css or src/globals.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Set the primary and accent colors used in the Lovable code */
-  --color-primary: 33 150 243; /* Example: Blue (for primary/50, primary/10) */
-  --color-accent: 239 68 68;  /* Example: Red (for the accent text) */
-  --color-foreground: 26 26 26; /* Dark text color */
+
+@layer base {
+  :root {
+    --background: 197 71% 73%;
+    --foreground: 220 20% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 20%;
+
+    --primary: 197 71% 73%;
+    --primary-foreground: 220 20% 20%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 220 20% 20%;
+
+    --muted: 197 40% 90%;
+    --muted-foreground: 220 10% 50%;
+
+    --accent: 0 84% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 197 30% 85%;
+    --input: 197 30% 85%;
+    --ring: 197 71% 73%;
+
+    --radius: 1rem;
+
+    --gradient-bg: linear-gradient(135deg, hsl(197, 71%, 73%) 0%, hsl(197, 60%, 85%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(197, 50%, 88%) 0%, hsl(0, 0%, 100%) 100%);
+  }
+
+  .dark {
+    --background: 220 40% 15%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 30% 20%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 30% 20%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 197 71% 73%;
+    --primary-foreground: 220 20% 20%;
+
+    --secondary: 220 30% 25%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 220 30% 25%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 0 84% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 30% 30%;
+    --input: 220 30% 30%;
+    --ring: 197 71% 73%;
+  }
 }
 
-/* Define utility classes based on the variables */
-.text-accent {
-  color: rgb(var(--color-accent));
-}
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-.hover\:text-accent:hover {
-  color: rgb(var(--color-accent));
+  body {
+    @apply bg-background text-foreground;
+  }
 }
-
-.text-foreground\/80 {
-  color: rgba(var(--color-foreground), 0.8);
-}
-/* You may need to add many more custom classes if your project uses them heavily */
