@@ -1,15 +1,39 @@
-// src/App.jsx 
+// src/App.jsx
 
-import React from 'react';
-import Home from './pages/Home'; 
+import { Toaster } from "sonner"; // The component from the sonner package
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Movies from "./pages/Movies";
+import TVShows from "./pages/TVShows";
+import MovieDetail from "./pages/MovieDetail";
+import NotFound from "./pages/NotFound";
 
-function App() {
-  return (
-    // The outermost container should simply take up the full available width
-    <div className="w-full min-h-screen">
-      <Home />
-    </div>
-  );
-}
+const queryClient = new QueryClient();
+
+const App = () => (
+    // 1. TooltipProvider removed as it was not imported/installed
+    <QueryClientProvider client={queryClient}>
+        {/* 2. Toaster is placed outside the router for global use */}
+        <Toaster richColors position="top-right" /> 
+        <BrowserRouter>
+            <Routes>
+                {/* Home route */}
+                <Route path="/" element={<Home />} />
+                
+                {/* Movies and TV Shows main routes */}
+                <Route path="/movies" element={<Movies />} />
+                <Route path="/tv-shows" element={<TVShows />} />
+                
+                {/* Detail routes for both movies and TV shows */}
+                <Route path="/movie/:id" element={<MovieDetail />} />
+                <Route path="/tv/:id" element={<MovieDetail />} />
+                
+                {/* 404/Catch-all route */}
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </BrowserRouter>
+    </QueryClientProvider>
+);
 
 export default App;

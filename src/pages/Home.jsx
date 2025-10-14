@@ -1,54 +1,92 @@
 // src/pages/Home.jsx
-import React, { useState, useEffect } from 'react';
-import FeaturedSection from '../components/FeaturedSection'; // 🎯 NEW IMPORT
-import { searchMovies } from '../utils/api'; 
-// Note: SearchBar and MovieList are NOT used for this specific Figma replication
+
+import React, { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import SearchBar from "../components/SearchBar";
+import MovieGrid from "../components/MovieGrid";
+import { searchMovies } from "../services/omdb"; 
+import { toast } from "sonner"; 
 
 const Home = () => {
-    // ... (Your state and useEffect hooks remain the same, ensuring 'movies' is populated)
-    
-    // We'll rename the state to better reflect the featured content
-    const [featuredMovies, setFeaturedMovies] = useState([]);
-    // ... (Your fetchMovies function logic remains the same, but set the results to setFeaturedMovies)
+    const [movies, setMovies] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // For demonstration, let's assume 'Batman' provides your featured data
+    const fetchData = async (query = '') => {
+        // --- START FIX: Set loading state immediately ---
+        setIsLoading(true);
+
+        try {
+            // Determine if we're searching or fetching defaults
+            const results = query
+                ? await searchMovies(query)
+                : await searchMovies('popular'); 
+            
+            // OMDB returns 'Poster', the components expect 'poster_path'.
+            // The service function should handle this mapping, but we add a safety mapping here.
+            const formattedResults = results.map(movie => ({
+                ...movie,
+                // OMDB uses 'Poster' and 'Title', ensure these are handled.
+                poster_path: movie.Poster || movie.poster_path, 
+                title: movie.Title || movie.title,
+            }));
+
+            setMovies(formattedResults);
+
+        } catch (error) {
+            console.error("Fetch error:", error);
+            // We can show a toast error here
+            toast.error("Failed to fetch movies. Check console for details.");
+            
+        } finally {
+            // --- END FIX: Ensure loading state is turned off regardless of success/failure ---
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        // Fetch a default list for the featured section
-        const fetchDefaultMovies = async () => {
-            const { movies: fetchedMovies } = await searchMovies('divided'); // Using 'divided' from the image
-            setFeaturedMovies(fetchedMovies || []);
-        };
-        fetchDefaultMovies();
+        // Fetch popular movies on initial load
+        fetchData();
     }, []);
-    
-    
-    // 4. Component Render (JSX)
-    return (
-        <div className="min-h-screen"> 
-            
-            {/* Content Wrapper - Max Width and Centering */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20"> 
-                
-                {/* 🎯 The Featured Section that EXACTLY matches the Figma */}
-                {featuredMovies.length > 0 && (
-                    <FeaturedSection movies={featuredMovies} />
-                )}
 
-                {/* --- Other content would go here (e.g., a main search grid) --- */}
-                
-            </div>
+    const handleSearch = () => {
+        if (searchTerm.trim()) {
+            setIsSearching(true);
+            fetchData(searchTerm);
+        } else {
+            setIsSearching(false);
+            fetchData(); 
+        }
+    };
+
+    const handleReadMore = (id) => {
+        // Implement navigation logic here, e.g.: navigate(`/movie/${id}`);
+        console.log(`Navigating to movie details for ID: ${id}`);
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-50 pb-20"> 
+            <Navbar />
             
-            {/* Floating Navigation Bar (Matches Bottom of Figma) */}
-            {/* The Figma shows a nav bar that seems to be fixed at the bottom/top */}
-            <div 
-                className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200"
-                style={{ zIndex: 50 }}
-            >
-                <div className="max-w-7xl mx-auto flex justify-around p-4">
-                    <a href="#" className="text-gray-800 font-bold hover:text-red-700">HOME</a>
-                    <a href="#" className="text-gray-600 hover:text-red-700">MOVIES</a>
-                    <a href="#" className="text-gray-600 hover:text-red-700">TV SHOWS</a>
-                </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <SearchBar 
+                    value={searchTerm}
+                    onChange={setSearchTerm}
+                    onSearch={handleSearch}
+                />
+                
+                <h2 className="text-2xl font-bold text-gray-800 mb-8 mt-4 text-center">
+                    {isSearching ? `Search Results for "${searchTerm}"` : 'Popular Movies'}
+                </h2>
+                
+                {isLoading ? (
+                    <p className="text-center text-gray-500">Loading movies...</p>
+                ) : movies.length > 0 ? (
+                    <MovieGrid movies={movies} onMovieClick={handleReadMore} />
+                ) : (
+                    <p className="text-center text-gray-500">No movies found.</p>
+                )}
             </div>
         </div>
     );

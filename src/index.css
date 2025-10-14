@@ -1,31 +1,26 @@
-/* index.css */
+/* src/index.css or src/globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  
-  --color-primary-bg: #FFFFFF; /* White main background */
-  --color-featured-bg: #E1F0FF; /* Light Blue for the featured container/header */
-  --color-accent-red: #BE123C; /* The vibrant red for the 'read more' button */
-  --color-text-dark: #1A1A1A; /* Dark text for headings and body */
-  --color-text-secondary: #6B7280; /* Gray text */
+  /* Set the primary and accent colors used in the Lovable code */
+  --color-primary: 33 150 243; /* Example: Blue (for primary/50, primary/10) */
+  --color-accent: 239 68 68;  /* Example: Red (for the accent text) */
+  --color-foreground: 26 26 26; /* Dark text color */
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background-color: var(--color-primary-bg); 
-  color: var(--color-text-dark); 
-  font-family: 'Inter', sans-serif; 
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-#root {
-  max-width: 100%;
-  margin: 0;
-  padding: 0; 
-  text-align: left;
+/* Define utility classes based on the variables */
+.text-accent {
+  color: rgb(var(--color-accent));
 }
 
-h1, h2, h3, h4 {
-  color: var(--color-text-dark);
+.hover\:text-accent:hover {
+  color: rgb(var(--color-accent));
 }
+
+.text-foreground\/80 {
+  color: rgba(var(--color-foreground), 0.8);
+}
+/* You may need to add many more custom classes if your project uses them heavily */
