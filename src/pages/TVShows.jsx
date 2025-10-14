@@ -1,7 +1,7 @@
 // src/pages/TVShows.jsx
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar"; // Changed from @/
+import Navbar from "../../components/Navbar";
 import SearchBar from "../components/SearchBar"; // Changed from @/
 import MovieGrid from "../components/MovieGrid"; // Changed from @/
 import { getTVShows } from "../services/omdb"; // Changed from @/

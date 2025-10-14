@@ -1,6 +1,6 @@
 // src/pages/MovieDetail.jsx
 import React from 'react';
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import { useParams } from 'react-router-dom';
 
 const MovieDetail = () => {

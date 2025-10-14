@@ -1,7 +1,7 @@
 // src/pages/Home.jsx
 
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import MovieGrid from "../components/MovieGrid";
 import { searchMovies } from "../services/omdb"; 

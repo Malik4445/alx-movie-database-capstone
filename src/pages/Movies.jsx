@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import MovieGrid from "../components/MovieGrid";
 import { searchMovies } from "../services/omdb"; // Use the correct OMDB service
 import { toast } from "sonner";
