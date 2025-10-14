@@ -4,7 +4,7 @@
 const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY || "OMDB_API_KEY_MISSING";
 const BASE_URL = "https://www.omdbapi.com/";
 
-// NOTE: The TypeScript 'export interface Movie' has been removed to resolve the SyntaxError.
+// Search movies by title
 
 export const searchMovies = async (query = 'popular') => {
   if (OMDB_API_KEY === "OMDB_API_KEY_MISSING") {

@@ -33,7 +33,7 @@ export const searchMovies = async (title) => {
         }
         
     } catch (networkOrParseError) {
-        // ⚠️ THIS CATCH BLOCK IS WHERE YOUR ERROR LIKELY ORIGINATED
+    
         console.error("Network or parsing error:", networkOrParseError);
         
         // Ensure a predictable object structure is returned on failure

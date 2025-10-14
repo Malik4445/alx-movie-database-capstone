@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../components/Navbar";
+import Navbar from "../components/Navbar";
 import MovieGrid from "../components/MovieGrid";
-import { searchMovies } from "../services/omdb"; // Use the correct OMDB service
+import { searchMovies } from "../services/omdb"; 
 import { toast } from "sonner";
 
 const Movies = () => {
@@ -20,7 +20,6 @@ const Movies = () => {
             // OMDB often uses a search term, so 'popular' or 'movie' works.
             const data = await searchMovies('movie'); 
             
-            // Map the OMDB fields to the expected component props
             const formattedMovies = data.map(movie => ({
                 ...movie,
                 posterPath: movie.Poster, // OMDB uses 'Poster'
@@ -40,7 +39,7 @@ const Movies = () => {
     }, []);
 
     const handleMovieClick = (id) => {
-        // Navigate to the movie detail page using the correct URL structure
+        // For Navigating to the movie detail page using the correct URL structure
         navigate(`/movie/${id}`);
     };
 

@@ -2,7 +2,6 @@
 import React from 'react';
 import { SearchIcon } from '@heroicons/react/outline'; 
 
-// 1. FeaturedMovieCard (Ensure w-48 is correct for size)
 const FeaturedMovieCard = ({ movie }) => {
     return (
         <div className="flex flex-col w-48 flex-shrink-0 bg-white rounded-lg shadow-md overflow-hidden">

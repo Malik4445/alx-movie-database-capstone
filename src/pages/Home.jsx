@@ -1,7 +1,7 @@
 // src/pages/Home.jsx
 
 import React, { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar";
+import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import MovieGrid from "../components/MovieGrid";
 import { searchMovies } from "../services/omdb"; 
@@ -23,11 +23,10 @@ const Home = () => {
                 ? await searchMovies(query)
                 : await searchMovies('popular'); 
             
-            // OMDB returns 'Poster', the components expect 'poster_path'.
-            // The service function should handle this mapping, but we add a safety mapping here.
+            // OMDB returns 'Poster', the components expect 'poster_path'
             const formattedResults = results.map(movie => ({
                 ...movie,
-                // OMDB uses 'Poster' and 'Title', ensure these are handled.
+                // OMDB uses 'Poster' and 'Title'
                 poster_path: movie.Poster || movie.poster_path, 
                 title: movie.Title || movie.title,
             }));
@@ -36,11 +35,9 @@ const Home = () => {
 
         } catch (error) {
             console.error("Fetch error:", error);
-            // We can show a toast error here
             toast.error("Failed to fetch movies. Check console for details.");
             
         } finally {
-            // --- END FIX: Ensure loading state is turned off regardless of success/failure ---
             setIsLoading(false);
         }
     };

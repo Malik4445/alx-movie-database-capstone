@@ -1,6 +1,6 @@
 // src/App.jsx
 
-import { Toaster } from "sonner"; // The component from the sonner package
+import { Toaster } from "sonner"; 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -12,7 +12,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
-    // 1. TooltipProvider removed as it was not imported/installed
+    
     <QueryClientProvider client={queryClient}>
         {/* 2. Toaster is placed outside the router for global use */}
         <Toaster richColors position="top-right" /> 
