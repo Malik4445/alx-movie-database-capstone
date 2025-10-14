@@ -1,8 +1,7 @@
-// postcss.config.js (Correct)
+// postcss.config.js
 export default {
   plugins: {
-    // Use the correct plugin alias for Tailwind CSS in PostCSS
-    '@tailwindcss/postcss': {}, 
+    tailwindcss: {}, 
     autoprefixer: {},
   },
 };
