@@ -1,45 +1,46 @@
-// src/pages/Movies.jsx
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import MovieGrid from "../components/MovieGrid";
 import { searchMovies } from "../services/omdb"; 
-import { toast } from "sonner";
+import { toast } from "sonner"; // Assuming 'sonner' for toast notifications
 
 const Movies = () => {
+    // Correctly defined state hook: [state, setter]
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     const loadMovies = async () => {
-        setIsLoading(true);
-
         try {
-            // Fetch a general set of movies (e.g., 'movie' type or a general query)
-            // OMDB often uses a search term, so 'popular' or 'movie' works.
-            const data = await searchMovies('movie'); 
+            // 1. Start loading
+            setIsLoading(true);
             
-            const formattedMovies = data.map(movie => ({
-                ...movie,
-                posterPath: movie.Poster, // OMDB uses 'Poster'
-                title: movie.Title,       // OMDB uses 'Title'
-            }));
-            setMovies(formattedMovies);
+            // 2. Fetch data (uses the 'double-tap' logic from omdb.js)
+            const fetchedMovies = await searchMovies(); 
+            
+            // 3. Set the state with the fetched, image-ready movies
+            setMovies(fetchedMovies); 
+
         } catch (error) {
-            console.error("Failed to fetch movies:", error);
-            toast.error("Failed to load movies list.");
+            // 4. Handle errors from the service layer
+            console.error("Error loading movies:", error);
+            // Display the specific error message thrown by the service
+            toast.error(`Failed to load movies: ${error.message}`); 
+
         } finally {
-            setIsLoading(false);
+            // 5. Stop loading, regardless of success or failure
+            setIsLoading(false); 
         }
     };
 
+    // Call loadMovies once when the component mounts
     useEffect(() => {
         loadMovies();
     }, []);
 
     const handleMovieClick = (id) => {
-        // For Navigating to the movie detail page using the correct URL structure
+        // Navigates to the movie detail page
         navigate(`/movie/${id}`);
     };
 
@@ -56,8 +57,10 @@ const Movies = () => {
                         <p className="text-xl text-muted-foreground">Loading movies...</p>
                     </div>
                 ) : movies.length > 0 ? (
+                    // Display the grid if movies are found
                     <MovieGrid movies={movies} onMovieClick={handleMovieClick} />
                 ) : (
+                    // Display "No movies found" if the fetch succeeded but returned an empty list
                     <div className="text-center py-20">
                         <p className="text-xl text-muted-foreground">No movies found.</p>
                     </div>

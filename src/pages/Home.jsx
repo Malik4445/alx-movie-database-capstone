@@ -1,5 +1,5 @@
 // src/pages/Home.jsx
-
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
@@ -8,6 +8,7 @@ import { searchMovies } from "../services/omdb";
 import { toast } from "sonner"; 
 
 const Home = () => {
+    const navigate = useNavigate();
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [isSearching, setIsSearching] = useState(false);
@@ -25,13 +26,14 @@ const Home = () => {
             
             // OMDB returns 'Poster', the components expect 'poster_path'
             const formattedResults = results.map(movie => ({
-                ...movie,
-                // OMDB uses 'Poster' and 'Title'
-                poster_path: movie.Poster || movie.poster_path, 
-                title: movie.Title || movie.title,
-            }));
+    ...movie,
+    posterPath: movie.Poster || movie.poster_path, 
+    // FIX: Map OMDB's 'Title' to the expected 'title'
+    title: movie.Title || movie.title,
+    id: movie.imdbID,
+}));
 
-            setMovies(formattedResults);
+setMovies(formattedResults);
 
         } catch (error) {
             console.error("Fetch error:", error);
@@ -58,9 +60,8 @@ const Home = () => {
     };
 
     const handleReadMore = (id) => {
-        // Implement navigation logic here, e.g.: navigate(`/movie/${id}`);
-        console.log(`Navigating to movie details for ID: ${id}`);
-    };
+    navigate(`/movie/${id}`);
+};
 
     return (
         <div className="min-h-screen bg-gray-50 pb-20"> 
