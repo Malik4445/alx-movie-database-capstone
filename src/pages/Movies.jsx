@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar.jsx";
 import MovieGrid from "../components/MovieGrid";
 import { searchMovies } from "../services/omdb"; 
 import { toast } from "sonner"; 
