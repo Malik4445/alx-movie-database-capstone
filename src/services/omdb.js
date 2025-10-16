@@ -3,7 +3,7 @@
 const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY || "OMDB_API_KEY_MISSING";
 const BASE_URL = "https://www.omdbapi.com/";
 
-// Utility function to check API key (Keep this)
+// Utility function to check API key 
 const checkApiKey = () => {
     if (OMDB_API_KEY === "OMDB_API_KEY_MISSING") {
         console.error("OMDB API Key not found. Please check your .env file.");
@@ -11,8 +11,7 @@ const checkApiKey = () => {
     }
     return true;
 };
-
-// Fetch movie details by IMDB ID (tt1234567) - Keep this as is
+// Fetch movie details by IMDB ID (tt1234567) 
 export const getMovieDetails = async (id) => {
     if (!checkApiKey()) return null;
 
@@ -74,7 +73,7 @@ export const searchMovies = async (query = 'popular') => {
 
         } else {
             console.log(`No results found for query: ${query}`);
-            // IMPORTANT: If the search returns an error (e.g., "Movie not found!"), it still needs to be handled
+            // IMPORTANT: If the search returns an error (e.g., "Movie not found!")
             if (searchData.Error) {
                 throw new Error(searchData.Error);
             }
@@ -88,6 +87,6 @@ export const searchMovies = async (query = 'popular') => {
 };
 
 export const getTVShows = async () => {
-    // Uses OMDB search for 'series' type (Keep this)
+    // Uses OMDB search for 'series' type 
     return searchMovies('tv series');
 };

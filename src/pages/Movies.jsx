@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import MovieGrid from "../components/MovieGrid";
 import { searchMovies } from "../services/omdb"; 
-import { toast } from "sonner"; // Assuming 'sonner' for toast notifications
+import { toast } from "sonner"; 
 
 const Movies = () => {
-    // Correctly defined state hook: [state, setter]
+    // defined state hook: [state, setter]
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
